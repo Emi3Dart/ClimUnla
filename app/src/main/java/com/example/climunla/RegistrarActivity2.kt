@@ -65,6 +65,7 @@ class RegistrarActivity2 : AppCompatActivity() {
             // Crear un Intent para iniciar LoginActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+
         }
     }
 }

@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     tools:context=".LoginActivity">
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/la_wave"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
         android:layout_marginTop="-80dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,82 +21,120 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/wave5" />
+
     <ImageView
         android:id="@+id/iv_climunla"
         android:layout_width="173dp"
         android:layout_height="154dp"
         android:layout_marginTop="16dp"
-        android:contentDescription=" logo Climunla"
+        android:contentDescription="logo ClimUnla"
         android:src="@drawable/climunla"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_climunla"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="15dp"
-        android:textSize="20sp"
-        />
-    <TextView
-        android:id="@+id/tv_loginText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ingrese nombre y contraseña para ingresar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_login"
-        android:layout_marginStart="17dp"
-        android:textSize="10sp"
-        />
-    <EditText
-        android:id="@+id/et_nombre_usuario"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login"
-        android:layout_marginTop="90dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Ingrese nombre de usuario"
-        android:inputType="text"
-        />
+        app:layout_constraintBottom_toTopOf="@id/btn_login"
+        >
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:text="Login"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_climunla"
+            tools:ignore="HardcodedText" />
+        <TextView
+            android:id="@+id/tv_loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:text="Ingrese nombre y contraseña para ingresar"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_login"
+            tools:ignore="HardcodedText,SmallSp" />
+        <EditText
+            android:id="@+id/et_nombre_usuario"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:hint="Ingrese nombre de usuario"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_login"
+            tools:ignore="HardcodedText" />
+        <EditText
+            android:id="@+id/et_contrasenia"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Ingrese contraseña"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_nombre_usuario"
+            tools:ignore="HardcodedText" />
 
-    <EditText
-        android:id="@+id/et_contrasenia"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_nombre_usuario"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"
-        android:hint="Ingrese contraseña"
-        android:inputType="textPassword"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="220dp"
         android:layout_height="55dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="30dp"
         android:text="login"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/et_contrasenia"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"
-        />
-
-    <Button
-        android:id="@+id/btn_contrasenia"
-        android:layout_width="220dp"
-        android:layout_height="55dp"
-        android:text="registrar"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/btn_login"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintBottom_toTopOf="@id/ll_registrar" />
 
+
+    <LinearLayout
+        android:id="@+id/ll_registrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿No tienes una cuenta?"
+            android:layout_marginEnd="4dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/tv_registrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar"
+            android:layout_marginEnd="4dp"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"  />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
 import android.content.Intent
+import android.widget.TextView
 
 class LoginActivity : AppCompatActivity() {
 
@@ -17,8 +18,9 @@ class LoginActivity : AppCompatActivity() {
     lateinit var lottieAnimacion : LottieAnimationView
     lateinit var etUsuario : EditText
     lateinit var etPassword : EditText
-    lateinit var btnRegistrarse : Button
+    //lateinit var btnRegistrarse : Button
     lateinit var btnIniciarSesion : Button
+    lateinit var tvRegistrar : TextView
 
 
 
@@ -35,14 +37,15 @@ class LoginActivity : AppCompatActivity() {
 
         etUsuario = findViewById(R.id.et_nombre_usuario)
         etPassword = findViewById(R.id.et_contrasenia)
-        btnRegistrarse = findViewById(R.id.btn_contrasenia)
+       // btnRegistrarse = findViewById(R.id.btn_contrasenia)
         btnIniciarSesion = findViewById(R.id.btn_login)
         lottieAnimacion = findViewById(R.id.la_wave)
+        tvRegistrar = findViewById(R.id.tv_registrar)
 
         lottieAnimacion.setSpeed(0.3f)
         lottieAnimacion.playAnimation() /// para que la animacion de fondo no vaya tan rapido
 
-        btnRegistrarse.setOnClickListener {
+        tvRegistrar.setOnClickListener {
             // Iniciar la actividad de registro
             val intent = Intent(this, RegistrarActivity2::class.java)
             startActivity(intent)
