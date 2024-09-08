@@ -1,13 +1,12 @@
 <resources>
     <string name="app_name">ClimUnla</string>
-    <string name="lunes">ClimUnla</string>
-    <string name="martes">ClimUnla</string>
-    <string name="miercoles">ClimUnla</string>
-    <string name="jueves">ClimUnla</string>
-    <string name="viernes">ClimUnla</string>
-    <string name="sabado">ClimUnla</string>
-    <string name="domingo">ClimUnla</string>
-
+    <string name="D1">Lunes</string>
+    <string name="D2">Martes</string>
+    <string name="D3">Miercoles</string>
+    <string name="D4">Jueves</string>
+    <string name="D5">Viernes</string>
+    <string name="D6">Sabado</string>
+    <string name="D7">Domingo</string>
 
     
 </resources>
