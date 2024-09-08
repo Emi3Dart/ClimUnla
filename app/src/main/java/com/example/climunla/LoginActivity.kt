@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
+import android.content.Intent
 
 class LoginActivity : AppCompatActivity() {
 
@@ -42,11 +43,9 @@ class LoginActivity : AppCompatActivity() {
         lottieAnimacion.playAnimation() /// para que la animacion de fondo no vaya tan rapido
 
         btnRegistrarse.setOnClickListener {
-            Toast.makeText(this, "Crear Usuario - TODO", Toast.LENGTH_SHORT).show()
-            /*
-             val intent = Intent(this, TermsAndConditionsActivity::class.java)
+            // Iniciar la actividad de registro
+            val intent = Intent(this, RegistrarActivity2::class.java)
             startActivity(intent)
-            */
         }
         btnIniciarSesion.setOnClickListener {
             var usuario = etUsuario.text.toString()
