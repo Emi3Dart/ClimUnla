@@ -49,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
             // Iniciar la actividad de registro
             val intent = Intent(this, RegistrarActivity2::class.java)
             startActivity(intent)
+            finish()
         }
         btnIniciarSesion.setOnClickListener {
             var usuario = etUsuario.text.toString()
@@ -56,15 +57,11 @@ class LoginActivity : AppCompatActivity() {
                 var mensaje = "Completar Datos"
                 Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(this,"Iniciar sesion - TODO", Toast.LENGTH_SHORT).show()
-                /*
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("NOMBRE", usuario)
-                startActivity(intent)
+                val intentSesionIniciada = Intent(this, MainActivity::class.java)
+                intentSesionIniciada.putExtra("NOMBRE",usuario)
+                startActivity(intentSesionIniciada)
                 finish()
-                */
             }
-
         }
     }
 }

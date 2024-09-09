@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     tools:context=".LoginActivity">
-
+    <!-- aplico el fondo  gradient de la carpeta drawable -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/la_wave"
         android:layout_width="0dp"
@@ -21,7 +21,9 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/wave5" />
-
+    <!-- Esta es una animacion de la libreria de Lottie, la animacion es la parte blanca nomas
+        es la animacion wave5 de la carpeta raw
+    -->
     <ImageView
         android:id="@+id/iv_climunla"
         android:layout_width="173dp"
@@ -33,6 +35,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
+    <!-- Esta imagen/logo de la app, es un afano completamente al logo de la API open weather map
+        Donde le cambiamos nada más que el nombre por ClimUnla-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,6 +44,9 @@
         app:layout_constraintTop_toBottomOf="@id/iv_climunla"
         app:layout_constraintBottom_toTopOf="@id/btn_login"
         >
+        <!-- Este Constraint Layout contiene tanto los TextView del login como los Edit Text de
+        usuario y contraseña -->
+
         <TextView
             android:id="@+id/tv_login"
             android:layout_width="wrap_content"
@@ -49,8 +56,8 @@
             android:text="Login"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_climunla"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText,MissingConstraints" />
+
         <TextView
             android:id="@+id/tv_loginText"
             android:layout_width="wrap_content"
@@ -82,9 +89,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_nombre_usuario"
-            tools:ignore="HardcodedText" />
-
-
+            tools:ignore="Autofill,HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +105,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ll_registrar" />
+        app:layout_constraintBottom_toTopOf="@id/ll_registrar"
+        tools:ignore="HardcodedText" />
 
 
     <LinearLayout
@@ -115,6 +121,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
+        <!--puse un bottom bottom para que si la pantalla del usuario es menor,
+        se muestre igualmente este Linear Layout-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -10,7 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.climunla.Detalle_dia
+
 
 class RegistrarActivity2 : AppCompatActivity() {
 
@@ -54,7 +54,7 @@ class RegistrarActivity2 : AppCompatActivity() {
                 Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
             } else {
                 // Crear un Intent para iniciar MainActivity
-                val intent = Intent(this, Detalle_dia::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 // Opcional: Terminar la actividad actual para que el usuario no pueda volver a ella con el botón de retroceso
                 finish()
@@ -66,6 +66,7 @@ class RegistrarActivity2 : AppCompatActivity() {
             // Crear un Intent para iniciar LoginActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            // EMI: yo agregaria  un finish()
 
         }
     }
