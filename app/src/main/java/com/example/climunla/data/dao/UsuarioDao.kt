@@ -16,4 +16,10 @@ interface UsuarioDao {
     // Función para verificar si ya existe un usuario con ese nombre de usuario
     @Query("SELECT * FROM usuario WHERE nombre_usuario = :nombreUsuario LIMIT 1")
     suspend fun buscarPorNombreUsuario(nombreUsuario: String): Usuario?
+
+    @Query("SELECT * FROM usuario WHERE nombre_usuario = :nombreUsuario AND contrasenia = :contrasenia LIMIT 1")
+    suspend fun verificarCredenciales(nombreUsuario: String, contrasenia: String): Usuario?
+
+    @Query("SELECT contrasenia FROM usuario WHERE nombre_usuario = :nombreUsuario LIMIT 1")
+    suspend fun obtenerContraseniaPorNombreUsuario(nombreUsuario: String): String?
 }

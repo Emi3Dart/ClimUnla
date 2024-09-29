@@ -11,39 +11,45 @@ import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
 import android.content.Intent
 import android.widget.TextView
+import com.example.climunla.data.UsuarioDataBase
+import com.example.climunla.data.dao.UsuarioDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
-
-    lateinit var lottieAnimacion : LottieAnimationView
-    lateinit var etUsuario : EditText
-    lateinit var etPassword : EditText
-    //lateinit var btnRegistrarse : Button
-    lateinit var btnIniciarSesion : Button
-    lateinit var tvRegistrar : TextView
-
-
+    lateinit var lottieAnimacion: LottieAnimationView
+    lateinit var etUsuario: EditText
+    lateinit var etPassword: EditText
+    lateinit var btnIniciarSesion: Button
+    lateinit var tvRegistrar: TextView
+    private lateinit var db: UsuarioDataBase // Cambiado a lateinit para inicializar en onCreate
+    private lateinit var usuarioDao: UsuarioDao // Cambiado a lateinit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+
+        // Inicializar la base de datos y el DAO aquí
+        db = UsuarioDataBase.getInstance(application) // Correcto, ahora el contexto está disponible
+        usuarioDao = db.usuarioDao()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-
         etUsuario = findViewById(R.id.et_nombre_usuario)
         etPassword = findViewById(R.id.et_contrasenia)
-       // btnRegistrarse = findViewById(R.id.btn_contrasenia)
         btnIniciarSesion = findViewById(R.id.btn_login)
         lottieAnimacion = findViewById(R.id.la_wave)
         tvRegistrar = findViewById(R.id.tv_registrar)
 
         lottieAnimacion.setSpeed(0.3f)
-        lottieAnimacion.playAnimation() /// para que la animacion de fondo no vaya tan rapido
+        lottieAnimacion.playAnimation()
 
         tvRegistrar.setOnClickListener {
             // Iniciar la actividad de registro
@@ -51,16 +57,37 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
         btnIniciarSesion.setOnClickListener {
-            var usuario = etUsuario.text.toString()
-            if(usuario.isEmpty() || etPassword.text.toString().isEmpty()){
-                var mensaje = "Completar Datos"
-                Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
-            }else{
-                val intentSesionIniciada = Intent(this, MainActivity::class.java)
-                intentSesionIniciada.putExtra("NOMBRE",usuario)
-                startActivity(intentSesionIniciada)
-                finish()
+            val usuario = etUsuario.text.toString()
+            val contrasenia = etPassword.text.toString()
+
+            if (usuario.isEmpty() || contrasenia.isEmpty()) {
+                Toast.makeText(this, "Completar Datos", Toast.LENGTH_SHORT).show()
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        // Verifica las credenciales en la base de datos
+                        val usuarioEncontrado = usuarioDao.verificarCredenciales(usuario, contrasenia)
+
+                        // Si el usuario es encontrado, se procede
+                        if (usuarioEncontrado != null) {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            intent.putExtra("NOMBRE", usuarioEncontrado.nombre)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            runOnUiThread {
+                                Toast.makeText(this@LoginActivity, "Usuario y/o contraseña son incorrectos", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                    } catch (e: Exception) {
+                        runOnUiThread {
+                            Toast.makeText(this@LoginActivity, "Error al iniciar sesión: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
     }
