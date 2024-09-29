@@ -8,10 +8,23 @@
     tools:context=".MainActivity"
     android:background="@drawable/gradient">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/primary_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
     <ScrollView
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -22,7 +35,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="240dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/climunla"
                 tools:ignore="MissingConstraints" />
@@ -115,10 +128,6 @@
                 android:gravity="center|left"
                 android:drawableEnd="@drawable/lluvia"
                 android:backgroundTint="@color/violet"/>
-
-
-
-
 
         </LinearLayout>
 

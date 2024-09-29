@@ -2,8 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="rosita">#E9A0F0</color>
     <color name="rosita_claro">#d9c4fc</color>
+    <color name="azul">#2D81EF</color>
     <color name="azul_bebe">#9dc6fc</color>
     <color name="blackred">#561F0D</color>
     <color name="violet">#33264B</color>
+    <color name="azul_oscuro">#0d2145</color>
+    <color name="azul_oscuro_claro">#0D2C78</color>
 </resources>

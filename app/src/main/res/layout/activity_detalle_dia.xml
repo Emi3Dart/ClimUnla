@@ -9,7 +9,14 @@
     tools:context=".MainActivity">
 
 
-
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/primary_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <!-- Animación de fondo (opcional) -->
     <com.airbnb.lottie.LottieAnimationView
@@ -37,7 +44,7 @@ android:text="HOY"
 android:textSize="24sp"
 android:textStyle="bold"
 android:textColor="@android:color/black"
-app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintTop_toBottomOf="@id/toolbar"
 app:layout_constraintStart_toStartOf="parent"
 app:layout_constraintEnd_toEndOf="parent"
 android:layout_marginTop="50dp"
