@@ -10,4 +10,5 @@
     <string name="D7">Domingo</string>
     <string name="titulo">ClimUnla</string>
     <string name="volver">Volver</string>
+    <string name="cambiarLugar">cambiarLugar\n</string>
 </resources>
