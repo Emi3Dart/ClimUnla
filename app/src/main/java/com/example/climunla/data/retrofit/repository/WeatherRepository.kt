@@ -1,12 +1,18 @@
 package com.example.climunla.data.retrofit.repository
 
 import com.example.climunla.data.retrofit.server.ApiServices
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class WeatherRepository(val api:ApiServices) {
+class WeatherRepository(val api: ApiServices) {
 
-    fun getClimaActual(lat:Double,lon:Double,unit:String) =
-        api.getClimaActual(lat,lon,"es",unit,"cf5f4136b70017608389ac31e46e8f0d")
+    suspend fun getClimaActual(lat: Double, lon: Double, unit: String) =
+        withContext(Dispatchers.IO) {
+            api.getClimaActual(lat, lon, "es", unit, "cf5f4136b70017608389ac31e46e8f0d") // Devuelve CurrentResponseApi directamente
+        }
 
-    fun getForecastClima(lat:Double,lon:Double,unit:String) =
-        api.getForecastClima(lat,lon,unit,"cf5f4136b70017608389ac31e46e8f0d")
+    suspend fun getForecastClima(lat: Double, lon: Double, unit: String) =
+        withContext(Dispatchers.IO) {
+            api.getForecastClima(lat, lon, unit, "cf5f4136b70017608389ac31e46e8f0d") // Devuelve ForecastResponseApi directamente
+        }
 }
