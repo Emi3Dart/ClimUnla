@@ -10,4 +10,7 @@
     <color name="violet">#33264B</color>
     <color name="azul_oscuro">#0d2145</color>
     <color name="azul_oscuro_claro">#0D2C78</color>
+    <color name="back_1">#161c2a</color>
+    <color name="back_2">#1a2332</color>
+    <color name="amarillo1">#fdd020</color>
 </resources>
