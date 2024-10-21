@@ -75,7 +75,7 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:1.12.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.12.0")
 
-
+    implementation("androidx.fragment:fragment:1.5.7")
 
     implementation("com.airbnb.android:lottie:6.5.2")
     implementation(libs.androidx.core.ktx)

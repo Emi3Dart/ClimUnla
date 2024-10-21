@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +9,10 @@
     tools:context=".MainActivity"
     android:background="@color/back_1">
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <include
         android:id="@+id/toolbar"
         layout="@layout/primary_layout"
@@ -218,7 +223,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:text="proximos 7 dias"/>
+                    android:text="proximos 7 dias "/>
 
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView

@@ -31,11 +31,20 @@ class MainActivity : AppCompatActivity() {
     private val climaViewModel : ClimaViewModel by viewModels()//un viewModel que se utiliza para cargar los datos del clima actual y el pronostico
     private val forecastAdapter by lazy { ForecastAdapter() }//adaptador para el pronostico del clima que maneja la vista en forma de lista horizontal.
     //lateinit var btnLunes : Button
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)// Se infla el diseño de la actividad principal usando ActivityMainBinding
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MainFragment())
+                .commit()
+        }
 
 
 
