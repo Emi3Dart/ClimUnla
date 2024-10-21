@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -48,9 +49,17 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.title = resources.getString(R.string.titulo)
 
         binding.apply {
-            var lat = -34.7033363
-            var lon = -58.3953235
-            var nombre = "Lanus"
+            var lat = intent.getDoubleExtra("lat",0.0)
+            var lon = intent.getDoubleExtra("lon",0.0)
+            var nombre = intent.getStringExtra("name")
+
+            if (lat == 0.0){
+                 lat = -34.7033363
+                 lon = -58.3953235
+                 nombre = "Lanus"
+            }
+
+
             /// clima hoy
             tvCiudad.text = nombre
             progressBar.visibility = View.VISIBLE
@@ -142,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.item_add){
-            var intent = Intent(this,Detalle_dia::class.java)
+            var intent = Intent(this,ListaCiudadesActivity::class.java)
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)

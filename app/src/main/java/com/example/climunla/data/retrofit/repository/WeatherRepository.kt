@@ -8,5 +8,5 @@ class WeatherRepository(val api:ApiServices) {
         api.getClimaActual(lat,lon,"es",unit,"cf5f4136b70017608389ac31e46e8f0d")
 
     fun getForecastClima(lat:Double,lon:Double,unit:String) =
-        api.getForecastClima(lat,lon,"es",unit,"cf5f4136b70017608389ac31e46e8f0d")
+        api.getForecastClima(lat,lon,unit,"cf5f4136b70017608389ac31e46e8f0d")
 }
