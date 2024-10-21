@@ -31,11 +31,20 @@ class MainActivity : AppCompatActivity() {
     private val climaViewModel : ClimaViewModel by viewModels()
     private val forecastAdapter by lazy { ForecastAdapter() }
     //lateinit var btnLunes : Button
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MainFragment())
+                .commit()
+        }
 
 
 
