@@ -1,5 +1,9 @@
 package com.example.climunla
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -10,13 +14,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
 import android.content.Intent
+import android.os.Build
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.climunla.data.UsuarioDataBase
 import com.example.climunla.data.dao.UsuarioDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,6 +39,13 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var db: UsuarioDataBase // Cambiado a lateinit para inicializar en onCreate
     private lateinit var usuarioDao: UsuarioDao // Cambiado a lateinit
     lateinit var cbRecordar: CheckBox
+
+
+         private val CHANNEL_ID="myChanel"
+         private val NOTIFICATION_ID = 1
+         private val REQUEST_NOTIFICATION_PERMISSION = 1
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +89,11 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
+
+
+
         btnIniciarSesion.setOnClickListener {
+
             val usuario = etUsuario.text.toString()
             val contrasenia = etPassword.text.toString()
 
@@ -83,6 +105,8 @@ class LoginActivity : AppCompatActivity() {
                     editor.putString("username",usuario)
                     editor.putString("password", contrasenia)
                     editor.putBoolean("recordar_usuario", true)
+
+
                 } else {
                     // Si no está marcado, limpiar los datos guardados
                     editor.remove("username")
@@ -115,5 +139,101 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+
+createChanel()
+
+        cbRecordar.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkNotificationPermission()
+            }
+        }
+
+
     }
-}
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+                // Solicitar el permiso
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    REQUEST_NOTIFICATION_PERMISSION
+                )
+            } else {
+                // Si ya se concedió, mostrar la notificación
+                createNotificacion()
+            }
+        } else {
+            // Si la versión es menor a Android 13, no es necesario solicitar permiso
+            createNotificacion()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, mostrar la notificación
+                createNotificacion()
+            } else {
+                // El permiso fue denegado, manejar el caso aquí si es necesario
+            }
+        }
+    }
+
+
+
+
+
+    private fun createNotificacion() {
+
+        val builder =NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(android.R.drawable.checkbox_on_background)
+            .setContentTitle("MARCASTE LA CAJA")
+            .setContentText("USTED A SELECIONADO RECORDAR SU USAURIO Y CONTRASEÑA")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+
+            notify(NOTIFICATION_ID, builder.build())
+
+
+
+        }
+
+
+    }
+    fun createChanel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val channel=NotificationChannel(
+               CHANNEL_ID,
+                "MySuperChanel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            val notificationManager:NotificationManager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.createNotificationChannel(channel)
+        } }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
