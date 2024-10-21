@@ -26,14 +26,14 @@ import javax.security.auth.callback.Callback
 
 class MainActivity : AppCompatActivity() {
     ///
-    lateinit var toolbar:Toolbar
-    lateinit var binding: ActivityMainBinding
-    private val climaViewModel : ClimaViewModel by viewModels()
-    private val forecastAdapter by lazy { ForecastAdapter() }
+    lateinit var toolbar:Toolbar// para la barra de herramientas
+    lateinit var binding: ActivityMainBinding// para usar viewBinding para acceder y manipular los elementos de la interfaz
+    private val climaViewModel : ClimaViewModel by viewModels()//un viewModel que se utiliza para cargar los datos del clima actual y el pronostico
+    private val forecastAdapter by lazy { ForecastAdapter() }//adaptador para el pronostico del clima que maneja la vista en forma de lista horizontal.
     //lateinit var btnLunes : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)// Se infla el diseño de la actividad principal usando ActivityMainBinding
         enableEdgeToEdge()
         setContentView(binding.root)
 
@@ -44,11 +44,14 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //Se establece un Toolbar personalizado con un título
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.title = resources.getString(R.string.titulo)
 
         binding.apply {
+            //Recoge las coordenadas de latitud y longitud pasadas a través del Intent (del activity ListaCiudadesActivity),
+            // o establece valores predeterminados para la ciudad de "Lanús" si no se proporcionan
             var lat = intent.getDoubleExtra("lat",0.0)
             var lon = intent.getDoubleExtra("lon",0.0)
             var nombre = intent.getStringExtra("name")
@@ -63,12 +66,14 @@ class MainActivity : AppCompatActivity() {
             /// clima hoy
             tvCiudad.text = nombre
             progressBar.visibility = View.VISIBLE
+            //Hace una llamada a la API usando el climaViewModel para obtener el clima actual de la ciudad con las coordenadas especificadas.
             climaViewModel.loadClimaActual(lat,lon,"metric").enqueue(object :
                 retrofit2.Callback<CurrentResponseApi> {
                 override fun onResponse(
                     call: Call<CurrentResponseApi>,
                     response: Response<CurrentResponseApi>
                 ) {
+                    //Si la respuesta es exitosa, actualiza la interfaz con la información recibida (temperatura, humedad, velocidad del viento, etc.).
                     if(response.isSuccessful){
                         val data = response.body()
                         progressBar.visibility = View.GONE
@@ -82,6 +87,8 @@ class MainActivity : AppCompatActivity() {
                             tvMaxGrados.text = "Max:"+ it.main?.tempMax?.let { Math.round(it).toString() }+"°"
                             tvMinGrados.text = "Min:"+it.main?.tempMin?.let { Math.round(it).toString() }+"°"
 
+
+                            //Cambia la imagen del clima (ivClimaDia) según el tipo de clima (sol, nubes, lluvia, tormenta, etc.).
                             val weatherCondition = it.weather?.get(0)?.main
                             when (weatherCondition) {
                                 "Clear" -> ivClimaDia.setImageResource(R.drawable.sunny)             // Despejado
@@ -96,18 +103,20 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-
+                //Si las llamadas a la API fallan, se muestra un Toast con el error correspondiente
                 override fun onFailure(call: Call<CurrentResponseApi>, t: Throwable) {
                     Toast.makeText(this@MainActivity,t.toString(),Toast.LENGTH_SHORT).show()
                 }
 
             })
             /// forecast clima
+            //LLama  a la API para obtener el pronóstico del clima (forecast) y actualizar la interfaz de usuario en función de la respuesta recibida
             climaViewModel.loadForecastClima(lat,lon,"metric").enqueue(object :retrofit2.Callback<ForecastResponseApi>{
                 override fun onResponse(
                     call: Call<ForecastResponseApi>,
                     response: Response<ForecastResponseApi>
                 ) {
+                    // la respuesta es exitosa, los datos del pronóstico se envían a un adaptador (forecastAdapter), que los muestra en una lista horizontal (RecyclerView).
                     if(response.isSuccessful){
                         val data = response.body()
 
@@ -143,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         }*/
     }
 
-
+    //Se infla un menú de opciones que contiene una opción para agregar ciudades (abre la actividad ListaCiudadesActivity
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)

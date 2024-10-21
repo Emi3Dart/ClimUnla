@@ -7,7 +7,7 @@ import com.example.climunla.data.retrofit.model.ForecastResponseApi
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
-
+//Define las funciones para realizar llamadas a la API de OpenWeather.
 interface ApiServices {
 
     @GET("data/2.5/weather")

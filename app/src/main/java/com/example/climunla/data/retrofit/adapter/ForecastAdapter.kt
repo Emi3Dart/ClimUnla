@@ -15,12 +15,14 @@ import java.text.SimpleDateFormat
 class ForecastAdapter :RecyclerView.Adapter<ForecastAdapter.ViewHolder>(){
     private lateinit var binding: ForecastViewholderBinding
 
-
+    //Infla el diseño de la vista de cada elemento de pronóstico, utilizando ForecastViewholderBinding.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         binding=ForecastViewholderBinding.inflate(inflater,parent,false)
         return ViewHolder()
     }
+//Obtiene la fecha y hora del pronóstico a partir de la lista de datos (differ.currentList[position].dtTxt)
+// y la convierte en un objeto de calendario para extraer el día de la semana y la hora en formato de 12 horas (am/pm)
 
     override fun onBindViewHolder(holder: ForecastAdapter.ViewHolder, position: Int) {
         val binding = ForecastViewholderBinding.bind(holder.itemView)
@@ -38,6 +40,8 @@ class ForecastAdapter :RecyclerView.Adapter<ForecastAdapter.ViewHolder>(){
             7->"Dom"
             else -> "-"
         }
+        //Muestra esta información en los elementos de la UI correspondientes, como el nombre del
+        // día (tvNombreDia), la hora (tvHora), y la temperatura (tvTemperaturaDia).
         binding.tvNombreDia.text = dayOfWeekName
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val amPm = if(hour<12)"am" else "pm"
@@ -45,6 +49,8 @@ class ForecastAdapter :RecyclerView.Adapter<ForecastAdapter.ViewHolder>(){
         binding.tvHora.text = hour12.toString()+amPm
         binding.tvTemperaturaDia.text = differ.currentList[position].main?.temp?.let { Math.round(it) }.toString()+"°"
 
+        //También, selecciona un ícono basado en el estado del clima (weather.icon) y lo carga en la imagen (ivClimaHorario)
+        // utilizando Glide.
         val icon = when(differ.currentList[position].weather?.get(0)?.icon.toString()){
             "01d","01n" ->"sunny"
             "02d","02n" ->"cloudy_sunny"
@@ -61,7 +67,9 @@ class ForecastAdapter :RecyclerView.Adapter<ForecastAdapter.ViewHolder>(){
             icon,
             "drawable",binding.root.context.packageName
         )
-
+        //Dependiendo del código del ícono meteorológico (icon) de la API, se asigna una imagen
+        // correspondiente (por ejemplo, sunny, cloudy, rainy, etc.).
+        // Luego, Glide carga el recurso gráfico en la vista de imagen
         Glide.with(binding.root.context)
             .load(drawableResourceId)
             .into(binding.ivClimaHorario)
@@ -73,8 +81,11 @@ class ForecastAdapter :RecyclerView.Adapter<ForecastAdapter.ViewHolder>(){
 
     override fun getItemCount()=differ.currentList.size
 
-
+    //utiliza AsyncListDiffer con un DiffUtil.ItemCallback para gestionar
+    // las diferencias en la lista de pronósticos
     private val differCallback = object : DiffUtil.ItemCallback<ForecastResponseApi.data>(){
+        //se utilizan para determinar si los elementos en la lista son los
+        // mismos o si su contenido ha cambiado
         override fun areItemsTheSame(
             oldItem: ForecastResponseApi.data,
             newItem: ForecastResponseApi.data

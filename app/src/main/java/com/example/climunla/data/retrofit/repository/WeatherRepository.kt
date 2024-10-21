@@ -1,7 +1,7 @@
 package com.example.climunla.data.retrofit.repository
 
 import com.example.climunla.data.retrofit.server.ApiServices
-
+//Se encarga de la comunicación con la API a través de ApiServices.
 class WeatherRepository(val api:ApiServices) {
 
     fun getClimaActual(lat:Double,lon:Double,unit:String) =

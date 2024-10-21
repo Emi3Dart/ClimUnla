@@ -19,16 +19,19 @@ import java.text.SimpleDateFormat
 class CityAdapter :RecyclerView.Adapter<CityAdapter.ViewHolder>(){
     private lateinit var binding: CityViewholderBinding
 
-
+    //Infla el diseño de la vista para cada ciudad utilizando CityViewholderBinding.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         binding=CityViewholderBinding.inflate(inflater,parent,false)
         return ViewHolder()
     }
-
+    //Asigna el nombre de la ciudad (differ.currentList[position].name) al TextView correspondiente (tvCiudadNombre).
     override fun onBindViewHolder(holder: CityAdapter.ViewHolder, position: Int) {
         val binding = CityViewholderBinding.bind(holder.itemView)
         binding.tvCiudadNombre.text=differ.currentList[position].name
+        //Establece un OnClickListener para la raíz de la vista (binding.root), que al ser clicada, crea un
+        // Intent para iniciar la MainActivity, pasando las coordenadas de latitud y longitud (lat y lon) de la ciudad seleccionada,
+        // así como su nombre
         binding.root.setOnClickListener {
             val intent = Intent(binding.root.context,MainActivity::class.java)
             intent.putExtra("lat",differ.currentList[position].lat)
@@ -44,6 +47,8 @@ class CityAdapter :RecyclerView.Adapter<CityAdapter.ViewHolder>(){
 
 
     private val differCallback = object : DiffUtil.ItemCallback<CityResponseApi.CityResponseApiItem>(){
+        //Las funciones areItemsTheSame y areContentsTheSame se usan para comparar elementos y evitar
+        // actualizaciones innecesarias si los datos no han cambiado.
         override fun areItemsTheSame(
             oldItem: CityResponseApi.CityResponseApiItem,
             newItem: CityResponseApi.CityResponseApiItem
@@ -59,5 +64,8 @@ class CityAdapter :RecyclerView.Adapter<CityAdapter.ViewHolder>(){
         }
 
     }
+    //Al igual que en ForecastAdapter, se utiliza AsyncListDiffer para manejar
+    // las diferencias entre la lista actual de ciudades. Esto mejora el rendimiento del RecyclerView,
+    // ya que solo se actualizan los elementos que cambian
     val differ = AsyncListDiffer(this,differCallback)
 }
