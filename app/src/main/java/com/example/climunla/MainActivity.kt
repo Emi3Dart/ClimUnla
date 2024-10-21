@@ -14,7 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.climunla.data.retrofit.adapter.ForecastAdapter
 import com.example.climunla.data.retrofit.model.CurrentResponseApi
+import com.example.climunla.data.retrofit.model.ForecastResponseApi
 import com.example.climunla.data.retrofit.viewModel.ClimaViewModel
 import com.example.climunla.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var toolbar:Toolbar
     lateinit var binding: ActivityMainBinding
     private val climaViewModel : ClimaViewModel by viewModels()
+    private val forecastAdapter by lazy { ForecastAdapter() }
     //lateinit var btnLunes : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             var lat = -34.7033363
             var lon = -58.3953235
             var nombre = "Lanus"
-
+            /// clima hoy
             tvCiudad.text = nombre
             progressBar.visibility = View.VISIBLE
             climaViewModel.loadClimaActual(lat,lon,"metric").enqueue(object :
@@ -61,14 +65,25 @@ class MainActivity : AppCompatActivity() {
                         progressBar.visibility = View.GONE
                         LLContenedorDatos.visibility = View.VISIBLE
                         data?.let {
+
                             tvClima.text = it.weather?.get(0)?.main?:"-"
-                            tvViento.text = it.wind?.speed?.let { Math.round(it).toString() } +"Km"
+                            tvPorcentajeViento.text = it.wind?.speed?.let { Math.round(it).toString() } +"Km"
+                            tvPorcentajeHumedad.text = it.main?.humidity?.toString()+"%"
                             tvGrados.text = it.main?.temp?.let { Math.round(it).toString() }+"°"
-                            tvMaxGrados.text = it.main?.tempMax?.let { Math.round(it).toString() }+"°"
-                            tvMinGrados.text = it.main?.tempMin?.let { Math.round(it).toString() }+"°"
+                            tvMaxGrados.text = "Max:"+ it.main?.tempMax?.let { Math.round(it).toString() }+"°"
+                            tvMinGrados.text = "Min:"+it.main?.tempMin?.let { Math.round(it).toString() }+"°"
 
-
-
+                            val weatherCondition = it.weather?.get(0)?.main
+                            when (weatherCondition) {
+                                "Clear" -> ivClimaDia.setImageResource(R.drawable.sunny)             // Despejado
+                                "Clouds" -> ivClimaDia.setImageResource(R.drawable.cloudy)            // Nublado
+                                "Rain", "Drizzle" -> ivClimaDia.setImageResource(R.drawable.rainy)    // Lluvia y llovizna
+                                "Thunderstorm" -> ivClimaDia.setImageResource(R.drawable.storm)       // Tormenta
+                                "Snow" -> ivClimaDia.setImageResource(R.drawable.snowy)               // Nieve
+                                "Mist", "Smoke", "Haze", "Fog", "Dust", "Sand", "Ash", "Squall", "Tornado" ->
+                                    ivClimaDia.setImageResource(R.drawable.windy)                     // Viento, neblina, humo, polvo, etc.
+                                else -> ivClimaDia.setImageResource(R.drawable.cloudy_sunny)          // Imagen por defecto
+                            }
                         }
                     }
                 }
@@ -78,6 +93,35 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
+            /// forecast clima
+            climaViewModel.loadForecastClima(lat,lon,"metric").enqueue(object :retrofit2.Callback<ForecastResponseApi>{
+                override fun onResponse(
+                    call: Call<ForecastResponseApi>,
+                    response: Response<ForecastResponseApi>
+                ) {
+                    if(response.isSuccessful){
+                        val data = response.body()
+
+                        data?.let {
+                            forecastAdapter.differ.submitList(it.list)
+                            rvForecastView.apply {
+                                layoutManager = LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
+                                adapter = forecastAdapter
+
+                            }
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ForecastResponseApi>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
+
+
         }
 
 

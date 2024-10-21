@@ -13,4 +13,7 @@ class ClimaViewModel(val repository: WeatherRepository):ViewModel() {
     fun loadClimaActual(lat:Double,lon:Double,unit:String)=
         repository.getClimaActual(lat,lon,unit)
 
+    fun loadForecastClima(lat:Double,lon:Double,unit:String)=
+        repository.getForecastClima(lat,lon,unit)
+
 }
